@@ -3,12 +3,17 @@ package com.nizar.abdelhedi.entities.user;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class UserInformation implements Serializable {
@@ -26,19 +31,20 @@ public class UserInformation implements Serializable {
 	private String jobTile;
 	private String company;
 	private String experience;
-	@OneToMany(mappedBy = "userInformation", fetch = FetchType.LAZY)
+	
+	@OneToMany(mappedBy = "userInformation",cascade = CascadeType.ALL)
 	private List<Skills> skills;
-	@OneToOne
+	@JsonBackReference
+	@OneToOne(mappedBy = "userInformation",cascade = CascadeType.ALL)
 	private User user;
 	
 
-	public UserInformation(String country, String jobTile, String company, String experience, List<Skills> skills) {
+	public UserInformation(String country, String jobTile, String company, String experience) {
 		super();
 		this.country = country;
 		this.jobTile = jobTile;
 		this.company = company;
 		this.experience = experience;
-		this.skills = skills;
 	}
 
 	public UserInformation() {
@@ -79,6 +85,14 @@ public class UserInformation implements Serializable {
 
 	public String getExperience() {
 		return experience;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public void setExperience(String experience) {

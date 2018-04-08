@@ -2,11 +2,15 @@ package com.nizar.abdelhedi.entities.user;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class User implements Serializable {
@@ -21,11 +25,21 @@ public class User implements Serializable {
 	private String login;
 	private String password;
 	
-	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+	@JsonManagedReference
+	@JoinColumn(name = "ID_USER")
+	@OneToOne(cascade = CascadeType.ALL)
 	private UserInformation userInformation;
 
 	public User() {
 		super();
+	}
+
+	public UserInformation getUserInformation() {
+		return userInformation;
+	}
+
+	public void setUserInformation(UserInformation userInformation) {
+		this.userInformation = userInformation;
 	}
 
 	public User(String login, String password) {
