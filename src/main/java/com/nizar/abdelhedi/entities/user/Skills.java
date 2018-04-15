@@ -3,6 +3,7 @@ package com.nizar.abdelhedi.entities.user;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,19 +21,12 @@ public class Skills implements Serializable{
 	private static final long serialVersionUID = -4780584666313328987L;
 	@Id
 	@GeneratedValue
+	@Column(name = "ID_SKILL")
 	private int id;
 	private String skillName;
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "ID_INF")
-    private UserInformation userInformation;
-	
-	public UserInformation getUserInformation() {
-		return userInformation;
-	}
 
-	public void setUserInformation(UserInformation userInformation) {
-		this.userInformation = userInformation;
-	}
+	
+
 
 	public Skills() {
 		super();

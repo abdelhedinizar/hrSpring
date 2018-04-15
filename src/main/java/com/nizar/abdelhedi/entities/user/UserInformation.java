@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Columns;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -25,6 +28,7 @@ public class UserInformation implements Serializable {
 
 	@Id
 	@GeneratedValue
+	@Column(name="ID_INFO")
 	private int id;
 
 	private String country;
@@ -32,7 +36,8 @@ public class UserInformation implements Serializable {
 	private String company;
 	private String experience;
 	
-	@OneToMany(mappedBy = "userInformation",cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@JoinTable(name = "SKILLS_INFORMATION", joinColumns = { @JoinColumn(name = "ID_INFO") }, inverseJoinColumns = { @JoinColumn(name = "ID_SKILL") })
 	private List<Skills> skills;
 	@JsonBackReference
 	@OneToOne(mappedBy = "userInformation",cascade = CascadeType.ALL)
